@@ -14,7 +14,6 @@ const App = () => {
     <Context>
       <StackNavigator/>
     </Context>
-    // </View>
   )
 };
 

@@ -35,7 +35,8 @@ const Screen2 = (props) => {
           borderBottomLeftRadius: 20,
           marginTop: 30,
           width: width * 0.4,
-          borderBottomWidth: 2,
+          borderBottomWidth: 5,
+          borderTopWidth: 3,
         }}>
         <Text
           style={{
@@ -59,7 +60,7 @@ const Screen2 = (props) => {
         style={{
           width: width,
           height: height,
-          paddingTop: height * 0.1,
+          paddingTop: height * 0.05,
           paddingBottom: height * 0.1,
           alignItems: 'flex-end',
         }}

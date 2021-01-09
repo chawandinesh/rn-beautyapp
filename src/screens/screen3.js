@@ -1,10 +1,13 @@
 import React, {useLayoutEffect, useContext} from 'react';
+import firestore from '@react-native-firebase/firestore';
+
 import {
   View,
   Text,
   ImageBackground,
   Dimensions,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import {Icon} from 'native-base';
 import {GlobalContext} from './context';
@@ -14,12 +17,14 @@ const {height, width} = Dimensions.get('window');
 
 const Screen3 = (props) => {
   const [state, setState] = useContext(GlobalContext);
+  const [dataItems, setDataItems] = React.useState([]);
   const openRowRefs = [];
 
   const onRowDidOpen = (rowKey, rowMap) => {
     openRowRefs.push(rowMap[rowKey]);
   };
   const selectedItem = props.route.params.data;
+
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerTitle: 'Details',
@@ -42,31 +47,47 @@ const Screen3 = (props) => {
     });
   }, [props.navigation]);
 
-  const handleDelete = (rowMap, data) => {
-    // rowMap[data.item.key].closeRow();
-    state[selectedItem].splice(data.index, 1);
-    setState({...state, [selectedItem]: [...state[selectedItem]]});
+  const handleDelete = async (rowMap, data) => {
+    console.log(rowMap, data)
+    rowMap[data.index].closeRow()
+    dataItems.splice(dataItems[data.index], 1);
+    setDataItems(dataItems);
+    await firestore()
+      .collection('products')
+      .doc(selectedItem)
+      .set({items: dataItems})
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
+  React.useEffect(() => {
+    const subscriber = firestore()
+      .collection('products')
+      .doc(selectedItem)
+      .onSnapshot((documentSnapshot) => {
+        setDataItems(documentSnapshot.data().items);
+      });
+    return () => subscriber();
+  }, [selectedItem]);
+
   return (
-    <View style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}}>
       <ImageBackground
         style={{
           width: width,
           height: height,
-          paddingTop: height * 0.1,
           paddingBottom: height * 0.1,
           justifyContent: 'center',
           alignItems: 'center',
         }}
         source={require('../assets/images/makeupbackground4.jpg')}>
-        {state[selectedItem].length ? (
+        {dataItems && dataItems.length ? (
           <SwipeListView
             onRowDidOpen={onRowDidOpen}
             disableRightSwipe
             closeOnRowBeginSwipe
             closeOnRowOpen={false}
-            data={state[selectedItem]}
+            data={dataItems}
             keyExtractor={(item, idx) => idx.toString()}
             renderItem={(data, rowMap) => {
               return (
@@ -81,6 +102,12 @@ const Screen3 = (props) => {
                   <View
                     style={{
                       backgroundColor: '#111',
+                      borderBottomLeftRadius: 40,
+                      borderLeftColor: 'pink',
+                      borderBottomColor: '#ff8',
+                      borderLeftWidth: 10,
+                      borderBottomWidth: 5,
+                      borderTopLeftRadius: 40,
                       padding: 20,
                       marginTop: 20,
                       height: height * 0.2,
@@ -92,7 +119,14 @@ const Screen3 = (props) => {
                         alignItems: 'center',
                         justifyContent: 'space-around',
                       }}>
-                      <Text style={{fontSize: 20, color: '#fff'}}>Name :</Text>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          padding: 10,
+                          color: '#ff9',
+                        }}>
+                        Name :
+                      </Text>
                       <Text
                         style={{
                           fontWeight: 'bold',
@@ -109,7 +143,7 @@ const Screen3 = (props) => {
                         justifyContent: 'space-around',
                         marginTop: 30,
                       }}>
-                      <Text style={{fontSize: 20, color: '#fff'}}>
+                      <Text style={{fontSize: 20, color: '#faf'}}>
                         Subject :
                       </Text>
                       <Text
@@ -131,6 +165,8 @@ const Screen3 = (props) => {
                   style={{
                     marginTop: 20,
                     width: width * 0.9,
+                    borderBottomLeftRadius: 40,
+                    borderTopLeftRadius: 40,
                     height: height * 0.2,
                     justifyContent: 'flex-end',
                     padding: 20,
@@ -139,7 +175,7 @@ const Screen3 = (props) => {
                     alignItems: 'center',
                   }}
                   onPress={() => handleDelete(rowMap, data)}>
-                  <Text style={{color: '#fff', fontSize: 15}}>Delete</Text>
+                  <Text style={{color: '#fff', fontWeight:'bold',fontSize: 18, fontStyle:'italic'}}>Delete</Text>
                 </TouchableOpacity>
               );
             }}
@@ -153,6 +189,11 @@ const Screen3 = (props) => {
               opacity: 0.5,
               padding: 30,
               width: width * 0.9,
+              borderLeftColor:'#ffa',
+              borderBottomLeftRadius: 20,
+              borderLeftWidth: 5,
+              borderBottomColor:'#f5b5f2',
+              borderBottomWidth: 10,
             }}>
             <Text style={{fontSize: 25, color: '#fff', lineHeight: 40}}>
               Nothing To show, please click on '+' to add items
@@ -160,7 +201,7 @@ const Screen3 = (props) => {
           </View>
         )}
       </ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 };
 
