@@ -27,7 +27,6 @@ const Screen4 = (props) => {
     image: '',
   });
 
-  console.log(dataItems, 'datItems....');
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
       headerTitle: index === undefined ? 'Add Details' : 'Edit Details',
@@ -35,7 +34,7 @@ const Screen4 = (props) => {
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: '#333',
-    
+
         // opacity: 0.8,
       },
     });
@@ -46,10 +45,10 @@ const Screen4 = (props) => {
       .collection('products')
       .doc(selectedItem)
       .onSnapshot((documentSnapshot) => {
-        setDataItems(documentSnapshot.data().items);
-        console.log(index);
+        if (documentSnapshot.data().items) {
+          setDataItems(documentSnapshot.data().items);
+        }
         if (index || index === 0) {
-          console.log('index there');
           setDetails(documentSnapshot.data().items[index]);
         }
       });
@@ -107,162 +106,163 @@ const Screen4 = (props) => {
   };
   return (
     // <KeyboardAvoidingView behavior="padding" style={{flex: 1}} >
-      // <View style={{flex: 1}}>
-        <ImageBackground
+    // <View style={{flex: 1}}>
+    <ImageBackground
+      style={{
+        width: width,
+        height: height,
+        // flex: 1,
+        // paddingTop: height * 0.05,
+        // paddingBottom: height * 0.1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        opacity: 0.9,
+      }}
+      source={require('../assets/images/makeupbackground5.jpeg')}>
+      <View
+        style={{
+          height: height * 0.9,
+          width: width * 0.9,
+          backgroundColor: '#000',
+          borderRightColor: '#ffb',
+          borderLeftColor: '#ffb',
+          borderLeftWidth: 5,
+          borderRightWidth: 5,
+          padding: 10,
+          flex: 1,
+          opacity: 0.9,
+        }}>
+        <Item style={{marginTop: 20}}>
+          <Input
+            style={{color: '#fff'}}
+            placeholder="Category of Makeup"
+            value={details.category}
+            onChangeText={(text) => setDetails({...details, category: text})}
+          />
+        </Item>
+        <Item style={{marginTop: 20}}>
+          <Input
+            style={{color: '#fff'}}
+            placeholder="Name of Makeup Item"
+            value={details.name}
+            onChangeText={(text) => setDetails({...details, name: text})}
+          />
+        </Item>
+        <Item style={{marginTop: 20}}>
+          <Input
+            style={{color: '#fff'}}
+            placeholder="Details of Makeup item"
+            value={details.detailsOfItem}
+            onChangeText={(text) =>
+              setDetails({...details, detailsOfItem: text})
+            }
+          />
+        </Item>
+        <Item floatingLabel style={{marginTop: 20}}>
+          <Input
+            style={{color: '#fff'}}
+            placeholder="How to use ?"
+            value={details.useMethod}
+            onChangeText={(text) => setDetails({...details, useMethod: text})}
+          />
+        </Item>
+
+        <View style={{marginTop: 20}}>
+          <Label style={{color: '#fff', fontWeight: 'bold'}}>
+            Description :{' '}
+          </Label>
+          <Textarea
+            rowSpan={3}
+            bordered
+            style={{color: '#fff'}}
+            placeholder="Enter..."
+            placeholderTextColor="#777"
+            value={details.description}
+            onChangeText={(text) => setDetails({...details, description: text})}
+          />
+        </View>
+
+        <View
           style={{
-            width: width ,
-            height: height,
-            // flex: 1,
-            // paddingTop: height * 0.05,
-            // paddingBottom: height * 0.1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            opacity: 0.9,
-          }}
-          source={require('../assets/images/makeupbackground5.jpeg')}>
+            height: height * 0.1,
+            marginTop: 20,
+            justifyContent: 'space-around',
+            flexDirection: 'row',
+          }}>
+          <TouchableOpacity
+            onPress={() => getImage()}
+            style={{
+              width: width * 0.2,
+              backgroundColor: '#ffc',
+              borderWidth: 2,
+              height: height * 0.1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            {details.image ? (
+              <Image
+                source={{uri: details.image}}
+                resizeMode="stretch"
+                style={{height: 100, width: 100}}
+              />
+            ) : (
+              <Icon type="EvilIcons" name="image" style={{fontSize: 50}} />
+            )}
+          </TouchableOpacity>
           <View
             style={{
-              height: height * 0.9,
-              width: width * 0.9,
-              backgroundColor: '#000',
-              padding: 10,
-              flex:1,
-              opacity: 0.9,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}>
-            <Item style={{marginTop: 20}}>
-              <Input
-                style={{color: '#fff'}}
-                placeholder="Category of Makeup"
-                value={details.category}
-                onChangeText={(text) =>
-                  setDetails({...details, category: text})
-                }
-              />
-            </Item>
-            <Item style={{marginTop: 20}}>
-              <Input
-                style={{color: '#fff'}}
-                placeholder="Name of Makeup Item"
-                value={details.name}
-                onChangeText={(text) => setDetails({...details, name: text})}
-              />
-            </Item>
-            <Item style={{marginTop: 20}}>
-              <Input
-                style={{color: '#fff'}}
-                placeholder="Details of Makeup item"
-                value={details.detailsOfItem}
-                onChangeText={(text) =>
-                  setDetails({...details, detailsOfItem: text})
-                }
-              />
-            </Item>
-            <Item floatingLabel style={{marginTop: 20}}>
-              <Input
-                style={{color: '#fff'}}
-                placeholder="How to use ?"
-                value={details.useMethod}
-                onChangeText={(text) =>
-                  setDetails({...details, useMethod: text})
-                }
-              />
-            </Item>
-
-            <View style={{marginTop: 20}}>
-              <Label style={{color: '#fff', fontWeight: 'bold'}}>Description : </Label>
-              <Textarea
-                rowSpan={3}
-                bordered
-                style={{color: '#fff'}}
-                placeholder="Enter..."
-                placeholderTextColor="#777"
-                value={details.description}
-                onChangeText={(text) =>
-                  setDetails({...details, description: text})
-                }
-              />
-            </View>
-
-            <View
-              style={{
-                height: height * 0.1,
-                marginTop: 20,
-                justifyContent: 'space-around',
-                flexDirection: 'row',
-              }}>
-              <TouchableOpacity
-                onPress={() => getImage()}
-                style={{
-                  width: width * 0.2,
-                  backgroundColor: '#aaa',
-                  borderWidth: 2,
-                  height: height * 0.1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                {details.image ? (
-                  <Image
-                    source={{uri: details.image}}
-                    resizeMode="stretch"
-                    style={{height: 100, width: 100}}
-                  />
-                ) : (
-                  <Icon type="EvilIcons" name="image" style={{fontSize: 50}} />
-                )}
-              </TouchableOpacity>
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Icon
-                  type="AntDesign"
-                  name="arrowleft"
-                  style={{color: '#fff'}}
-                />
-              </View>
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text style={{fontWeight: 'bold', fontSize: 20, color: '#fff'}}>
-                  {' '}
-                  Add Image{' '}
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 10,
-              }}>
-              <TouchableOpacity
-                onPress={handleSubmit}
-                style={{
-                  backgroundColor: '#aaa',
-                  padding: 10,
-                  borderRadius: 20,
-                }}>
-                {index !== undefined ? (
-                  <Text
-                    style={{fontWeight: 'bold', fontSize: 30, color: '#fff'}}>
-                    {' '}
-                    Update{' '}
-                  </Text>
-                ) : (
-                  <Text
-                    style={{fontWeight: 'bold', fontSize: 30, color: '#fff'}}>
-                    {' '}
-                    Save{' '}
-                  </Text>
-                )}
-              </TouchableOpacity>
-            </View>
+            <Icon type="AntDesign" name="arrowleft" style={{color: '#fff'}} />
           </View>
-        </ImageBackground>
-      // </View>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            {index !== undefined ? (
+              <Text style={{fontWeight: 'bold', fontSize: 20, color: '#f9f'}}>
+                {' '}
+                Change Image{' '}
+              </Text>
+            ) : (
+              <Text style={{fontWeight: 'bold', fontSize: 20, color: '#f9f'}}>
+                {' '}
+                Add Image{' '}
+              </Text>
+            )}
+          </View>
+        </View>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: 10,
+          }}>
+          <TouchableOpacity
+            onPress={handleSubmit}
+            style={{
+              backgroundColor: '#ffe',
+              padding: 10,
+              borderRadius: 20,
+            }}>
+            {index !== undefined ? (
+              <Text style={{fontWeight: 'bold', fontSize: 30, color: '#012'}}>
+                {' '}
+                Update{' '}
+              </Text>
+            ) : (
+              <Text style={{fontWeight: 'bold', fontSize: 30, color: '#012'}}>
+                {' '}
+                Save{' '}
+              </Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ImageBackground>
+    // </View>
     // </KeyboardAvoidingView>
   );
 };

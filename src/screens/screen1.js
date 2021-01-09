@@ -46,6 +46,10 @@ const Screen1 = (props) => {
               alignItems: 'center',
               borderBottomLeftRadius: 20,
               backgroundColor: '#eee',
+              borderBottomWidth: 5,
+              borderBottomColor:'#f76',
+              borderLeftWidth: 3
+            
             }}>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>Add Details</Text>
           </TouchableOpacity>
@@ -59,6 +63,9 @@ const Screen1 = (props) => {
               alignItems: 'center',
               borderTopRightRadius: 20,
               backgroundColor: '#eee',
+              borderTopWidth: 5,
+              borderTopColor:'#f76',
+              borderRightWidth: 3
             }}>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>View Details</Text>
           </TouchableOpacity>
