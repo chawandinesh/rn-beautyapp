@@ -86,8 +86,8 @@ function Screen5(props) {
           </View>
           <View style={{height: 'auto'}}>
             {item.doc.items &&
-              item.doc.items.map((each) => (
-                <View style={{margin: 2, padding: 10, backgroundColor: '#ffb', borderLeftWidth: 5, borderRightWidth: 5}}>
+              item.doc.items.map((each, idx) => (
+                <View key={idx} style={{margin: 2, padding: 10, backgroundColor: '#ffb', borderLeftWidth: 5, borderRightWidth: 5}}>
                   <View style={{flexDirection:'row', }}><Text style={{fontSize: 18,width: 150, fontWeight:'bold'}}>Name:- </Text><Text>{each.name}</Text></View>
                   <View style={{flexDirection:'row', }}><Text style={{fontSize: 18,width: 150, fontWeight:'bold'}}>Category:- </Text><Text>{each.category}</Text></View>
                   <View ><Text style={{fontSize: 18,width: 150, fontWeight:'bold', marginTop: 20}}>How To Use? </Text><Text style={{padding: 10}}>{each.useMethod}</Text></View>

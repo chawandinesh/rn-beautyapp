@@ -29,7 +29,7 @@ const Screen1 = (props) => {
             style={{
               color: '#fff',
               fontSize: 30,
-              fontFamily: 'Roboto',
+   
               textShadowColor: '#000',
               textShadowOffset: {width: -1, height: 1},
               textShadowRadius: 10,
