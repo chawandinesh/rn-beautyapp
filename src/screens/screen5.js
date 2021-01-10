@@ -21,7 +21,6 @@ function Screen5(props) {
   const allKeys = Object.values(state);
 
   const data = allKeys.map((e) => e.map((e) => gState.push(e)));
-  console.log(dataItems, 'items');
 
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -62,7 +61,6 @@ function Screen5(props) {
   console.log(docItems, 'tils...');
 
   const renderItem = ({item}) => {
-    console.log(item, 'item....');
     return (
       <TouchableOpacity activeOpacity={1}>
         <View
@@ -70,7 +68,7 @@ function Screen5(props) {
             backgroundColor: '#bba3c9',
             borderBottomRightRadius: 50,
             borderTopLeftRadius: 50,
-            borderBottomColor:'#f43',
+            borderBottomColor: '#f43',
             borderRightWidth: 5,
             borderRightColor: '#0cb34f',
             borderBottomWidth: 10,
@@ -81,16 +79,53 @@ function Screen5(props) {
             height: 'auto',
             width: width * 0.9,
           }}>
-          <View style={{backgroundColor:'#056', alignItems:'center', borderTopRightRadius: 10,borderTopLeftRadius: 10}}>
+          <View
+            style={{
+              backgroundColor: '#056',
+              alignItems: 'center',
+              borderTopRightRadius: 10,
+              borderTopLeftRadius: 10,
+            }}>
             <Text style={{color: '#fff', fontSize: 20}}>{item.id}</Text>
           </View>
           <View style={{height: 'auto'}}>
             {item.doc.items &&
               item.doc.items.map((each, idx) => (
-                <View key={idx} style={{margin: 2, padding: 10, backgroundColor: '#ffb', borderLeftWidth: 5, borderRightWidth: 5}}>
-                  <View style={{flexDirection:'row', }}><Text style={{fontSize: 18,width: 150, fontWeight:'bold'}}>Name:- </Text><Text>{each.name}</Text></View>
-                  <View style={{flexDirection:'row', }}><Text style={{fontSize: 18,width: 150, fontWeight:'bold'}}>Category:- </Text><Text>{each.category}</Text></View>
-                  <View ><Text style={{fontSize: 18,width: 150, fontWeight:'bold', marginTop: 20}}>How To Use? </Text><Text style={{padding: 10}}>{each.useMethod}</Text></View>
+                <View
+                  key={idx}
+                  style={{
+                    margin: 2,
+                    padding: 10,
+                    backgroundColor: '#ffb',
+                    borderLeftWidth: 5,
+                    borderRightWidth: 5,
+                  }}>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text
+                      style={{fontSize: 18, width: 150, fontWeight: 'bold'}}>
+                      Name:-{' '}
+                    </Text>
+                    <Text>{each.name}</Text>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text
+                      style={{fontSize: 18, width: 150, fontWeight: 'bold'}}>
+                      Category:-{' '}
+                    </Text>
+                    <Text>{each.category}</Text>
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        width: 150,
+                        fontWeight: 'bold',
+                        marginTop: 20,
+                      }}>
+                      How To Use?{' '}
+                    </Text>
+                    <Text style={{padding: 10}}>{each.useMethod}</Text>
+                  </View>
                 </View>
               ))}
           </View>
@@ -110,11 +145,30 @@ function Screen5(props) {
           alignItems: 'center',
         }}
         source={require('../assets/images/makeupbackground2.jpg')}>
-        <FlatList
-          data={docItems}
-          keyExtractor={(item, idx) => idx.toString()}
-          renderItem={renderItem}
-        />
+        {!docItems.length ? (
+          <View
+            style={{
+              backgroundColor: '#000',
+              opacity: 0.8,
+              padding: 30,
+              width: width * 0.9,
+              borderLeftColor: '#ffa',
+              borderBottomLeftRadius: 20,
+              borderLeftWidth: 5,
+              borderBottomColor: '#f5b5f2',
+              borderBottomWidth: 10,
+            }}>
+            <Text style={{fontSize: 25, color: '#fff', lineHeight: 40}}>
+              No data found,  Add Details To see data
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={docItems}
+            keyExtractor={(item, idx) => idx.toString()}
+            renderItem={renderItem}
+          />
+        )}
       </ImageBackground>
     </View>
   );

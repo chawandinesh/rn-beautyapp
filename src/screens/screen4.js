@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {Item, Label, Input, Textarea, Form, Icon} from 'native-base';
 import ImagePicker from 'react-native-image-crop-picker';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const {height, width} = Dimensions.get('window');
 const Screen4 = (props) => {
@@ -106,12 +107,12 @@ const Screen4 = (props) => {
   };
   return (
     // <KeyboardAvoidingView behavior="padding" style={{flex: 1}} >
-    // <View style={{flex: 1}}>
+    // <ScrollView style={{flex: 1}}> 
     <ImageBackground
       style={{
         width: width,
         height: height,
-        // flex: 1,
+        flex: 1,
         // paddingTop: height * 0.05,
         // paddingBottom: height * 0.1,
         justifyContent: 'center',
@@ -119,38 +120,44 @@ const Screen4 = (props) => {
         opacity: 0.9,
       }}
       source={require('../assets/images/makeupbackground5.jpeg')}>
-      <View
+      <ScrollView
         style={{
           height: height * 0.9,
-          width: width * 0.9,
+          borderTopRightRadius: 40,
+          borderBottomLeftRadius: 40,
+          width: width * 0.99,
           backgroundColor: '#000',
           borderRightColor: '#ffb',
+          borderTopColor:'#f78',
+          borderTopWidth: 3,
+          borderBottomColor:'#f78',
+          borderBottomWidth: 3,
           borderLeftColor: '#ffb',
           borderLeftWidth: 5,
           borderRightWidth: 5,
           padding: 10,
-          flex: 1,
+          // flex: /1,
           opacity: 0.9,
         }}>
-        <Item style={{marginTop: 20}}>
+        <Item style={{marginTop: 20, borderBottomColor:'#f78', borderBottomWidth: 5, backgroundColor:'#fff'}} rounded>
           <Input
-            style={{color: '#fff'}}
+            style={{color: '#000'}}
             placeholder="Category of Makeup"
             value={details.category}
             onChangeText={(text) => setDetails({...details, category: text})}
           />
         </Item>
-        <Item style={{marginTop: 20}}>
+        <Item style={{marginTop: 20, borderBottomColor:'#f78', borderBottomWidth: 5, backgroundColor:'#fff'}} rounded>
           <Input
-            style={{color: '#fff'}}
+            style={{color: '#000'}}
             placeholder="Name of Makeup Item"
             value={details.name}
             onChangeText={(text) => setDetails({...details, name: text})}
           />
         </Item>
-        <Item style={{marginTop: 20}}>
+        <Item style={{marginTop: 20, borderBottomColor:'#f78', borderBottomWidth: 5, backgroundColor:'#fff'}} rounded>
           <Input
-            style={{color: '#fff'}}
+            style={{color: '#000'}}
             placeholder="Details of Makeup item"
             value={details.detailsOfItem}
             onChangeText={(text) =>
@@ -158,9 +165,9 @@ const Screen4 = (props) => {
             }
           />
         </Item>
-        <Item floatingLabel style={{marginTop: 20}}>
+        <Item style={{marginTop: 20, borderBottomColor:'#f78', borderBottomWidth: 5, backgroundColor:'#fff'}} rounded>
           <Input
-            style={{color: '#fff'}}
+            style={{color: '#000'}}
             placeholder="How to use ?"
             value={details.useMethod}
             onChangeText={(text) => setDetails({...details, useMethod: text})}
@@ -174,7 +181,7 @@ const Screen4 = (props) => {
           <Textarea
             rowSpan={3}
             bordered
-            style={{color: '#fff'}}
+            style={{marginTop: 20, borderBottomColor:'#f78', borderBottomWidth: 5, backgroundColor:'#fff'}} rounded
             placeholder="Enter..."
             placeholderTextColor="#777"
             value={details.description}
@@ -244,6 +251,12 @@ const Screen4 = (props) => {
             onPress={handleSubmit}
             style={{
               backgroundColor: '#ffe',
+              borderBottomWidth: 6,
+              borderBottomColor: '#9ff',
+              borderRightWidth:4,
+              borderLeftWidth:4,
+              borderRightColor: "#f9f",
+              borderLeftColor:'#f9f',
               padding: 10,
               borderRadius: 20,
             }}>
@@ -260,10 +273,10 @@ const Screen4 = (props) => {
             )}
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </ImageBackground>
-    // </View>
-    // </KeyboardAvoidingView>
+  //  </ScrollView> 
+    //  </KeyboardAvoidingView>
   );
 };
 
